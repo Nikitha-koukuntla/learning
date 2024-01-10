@@ -4,18 +4,29 @@ package com.nikki.learning;
 import com.nikki.learning.entity.Employee;
 import com.nikki.learning.enums.Role;
 
+import javax.naming.Name;
 import java.util.*;
 
 //@SpringBootApplication
 public class LearningApplication {
 
 	public static void main(String[] args) {
+		grouping();
+		sorting();
+		filtering();
+
+
+
+
+	}
+
+	public static void grouping(){
 		List<Employee> employees = new ArrayList<>();
 		employees.add(new Employee(1, "John", Role.HUMAN_RESOURCES));
 		employees.add(new Employee(2, "Alice", Role.SOFTWARE_DEVELOPER));
 		employees.add(new Employee(3, "Bob", Role.HUMAN_RESOURCES));
 		employees.add(new Employee(4, "Charlie", Role.SOFTWARE_DEVELOPER));
-		System.out.println(employee);
+		System.out.println(employees);
 
 		// Grouping employees by role manually
 		Map<Role, List<Employee>> groupedByRole = new HashMap<>();
@@ -27,6 +38,7 @@ public class LearningApplication {
 			}
 			groupedByRole.get(role).add(employees.get(i));
 		}
+		//groupedByRole.put(Role.HUMAN_RESOURCES,new ArrayList<>());
 //		for (Employee employee : employees) {
 //			Role role = employee.getRole();
 //			if (!groupedByRole.containsKey(role)) {
@@ -38,72 +50,51 @@ public class LearningApplication {
 		// Print the grouped result
 		groupedByRole.forEach((role, employeeList) -> {
 			System.out.println("Employees in role " + role + ":");
-			for (Employee employees : employeeList) {
-				System.out.println(employees.getId()+"  " + employees.getName());
+			for (Employee employee : employeeList) {
+				System.out.println(employee.getId()+"  " + employee.getName());
 			}
 		});
-		sorting();
-
-
-
-		//SpringApplication.run(LearningApplication.class, args);
-
 	}
-	public static void sorting(){
+	public static void sorting() {
 		List<Employee> employees = new ArrayList<>();
-		employees.add(new Employee(3, "Bob", UserRole.HUMAN_RESOURCES));
-		employees.add(new Employee(1, "John", UserRole.HUMAN_RESOURCES));
-		employees.add(new Employee(4, "Charlie", UserRole.SOFTWARE_DEVELOPER));
-		employees.add(new Employee(2, "Alice", UserRole.SOFTWARE_DEVELOPER));
+		employees.add(new Employee(3, "Bob", Role.HUMAN_RESOURCES));
+		employees.add(new Employee(1, "John", Role.HUMAN_RESOURCES));
+		employees.add(new Employee(4, "Charlie", Role.SOFTWARE_DEVELOPER));
+		employees.add(new Employee(2, "Alice", Role.SOFTWARE_DEVELOPER));
+		int n = employees.size();
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n - i - 1; j++) {
+				// Compare the IDs and swap if necessary
+				if (employees.get(j).id > employees.get(j + 1).id) {
+					Employee temp = employees.get(j);
+					employees.set(j, employees.get(j + 1));
+					employees.set(j + 1, temp);
+				}
+			}
+		}
 
-		// Sorting employees based on ID
-		Collections.sort(employees, (e1, e2) -> Integer.compare(e1.getId(), e2.getId()));
-
-		// Displaying the sorted employees
+		// Print the sorted list of employees
 		for (Employee employee : employees) {
-			System.out.println("ID: " + employee.getId() + ", Name: " + employee.getName());
+			System.out.println(employee);
 		}
 	}
-}
+		public static void filtering () {
+			List<Employee> employees = new ArrayList<>();
+			List<Employee> filteredEmployee = new ArrayList<>();
+			employees.add(new Employee(3, "Bob", Role.HUMAN_RESOURCES));
+			employees.add(new Employee(1, "John", Role.HUMAN_RESOURCES));
+			employees.add(new Employee(4, "Charlie", Role.SOFTWARE_DEVELOPER));
+			employees.add(new Employee(2, "Alice", Role.SOFTWARE_DEVELOPER));
+			for (Employee employee : employees) {
+				if (employee.getName().startsWith("S")) {
+					filteredEmployee.add(employee);
+				}
+			}
 
-class Employee {
-	private int id;
-	private String name;
-	private UserRole role;
-
-	// Constructors, getters, and setters...
-
-	public Employee(int id, String name, UserRole role) {
-		this.id = id;
-		this.name = name;
-		this.role = role;
+			// Display the filtered employees
+			System.out.println("Employees whose names start with 'S':");
+			for (Employee employee : filteredEmployee) {
+				System.out.println(employee.getName());
+			}
+		}
 	}
-
-	public int getId() {
-		return id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public UserRole getRole() {
-		return role;
-	}
-}
-
-enum UserRole {
-	HUMAN_RESOURCES,
-	SOFTWARE_DEVELOPER
-}
-		});
-
-
-
-		//SpringApplication.run(LearningApplication.class, args);
-
-	}
-
-
-
-}

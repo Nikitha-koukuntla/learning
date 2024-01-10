@@ -10,7 +10,7 @@ import lombok.*;
 @EqualsAndHashCode
 @Data
 public class Employee {
-    private int id;
+    public int id;
     private String name;
     private Role role;
 }
